@@ -4,15 +4,14 @@ const requestHandler = ({ uri }, response) => {
   if (uri === '/') {
     const body = createBody('Hello');
     response.send(body);
-    return;
+    return true;
   }
   if (uri === '/hello') {
     const body = createBody('How are you?');
     response.send(body);
-    return;
+    return true;
   }
-  response.statusCode = 404;
-  response.send('Page Not Found');
+  return false;
 };
 
 module.exports = { requestHandler, createBody };
