@@ -5,27 +5,14 @@ const { serveFileContent } = require('./src/serveFileContent.js');
 const { Response } = require('./src/response.js');
 
 const createHandler = (handlers) => {
-  return (request, response) => {
+  return (request, response, serverPath) => {
     for (const handler of handlers) {
-      if (handler(request, response)) {
+      if (handler(request, response, serverPath)) {
         return true;
       }
     }
     return false;
   };
-};
-
-const startServer = (port, handle) => {
-  const server = createServer((socket) => {
-    socket.on('data', (chunk) => {
-      const response = new Response(socket);
-      const request = parseRequest(chunk.toString());
-      handle(request, response);
-    })
-  });
-
-  server.listen(port);
-  console.log(`Listening at ${port}`);
 };
 
 const pageNotFound = ({ uri }, response) => {
@@ -34,6 +21,23 @@ const pageNotFound = ({ uri }, response) => {
   return true;
 };
 
-const handlers = [requestHandler, serveFileContent, pageNotFound];
-const handle = createHandler(handlers);
-startServer(8008, handle);
+const startServer = (port, handle, serverPath) => {
+  const server = createServer((socket) => {
+    socket.on('data', (chunk) => {
+      const response = new Response(socket);
+      const request = parseRequest(chunk.toString());
+      handle(request, response, serverPath);
+    })
+  });
+
+  server.listen(port);
+  console.log(`Listening at ${port}`);
+};
+
+const main = (serverPath) => {
+  const handlers = [requestHandler, serveFileContent, pageNotFound];
+  const handle = createHandler(handlers);
+  startServer(8008, handle, serverPath);
+};
+
+main(process.argv[2]);

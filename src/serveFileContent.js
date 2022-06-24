@@ -1,10 +1,10 @@
 const fs = require('fs');
 
-const serveFileContent = ({ uri }, response) => {
+const serveFileContent = ({ uri }, response, serverPath) => {
   if (uri === '/') {
     uri += 'news.html'
   }
-  const fileName = './public' + uri;
+  const fileName = serverPath + uri;
   if (!fs.existsSync(fileName)) {
     return false;
   }
