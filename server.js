@@ -1,14 +1,14 @@
 const { createServer } = require('net');
-const { requestHandler } = require('./src/handler.js');
 const { parseRequest } = require('./src/parser');
+const { requestHandler } = require('./src/handler.js');
+const { serveFileContent } = require('./src/serveFileContent');
 
 const startServer = (port) => {
   const server = createServer((socket) => {
     socket.on('data', (chunk) => {
-      console.log(chunk.toString());
       const request = parseRequest(chunk.toString());
-      requestHandler(request, socket);
-
+      // requestHandler(request, socket);
+      serveFileContent(request, socket);
     })
   });
 

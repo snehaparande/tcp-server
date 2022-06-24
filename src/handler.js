@@ -9,6 +9,13 @@ const requestHandler = ({ uri }, socket) => {
     socket.end();
     return;
   }
+  if (uri === '/hello') {
+    const body = createBody('How are you?');
+    const response = createResponse(200, body);
+    socket.write(response);
+    socket.end();
+    return;
+  }
   const body = createBody('Page Not Found');
   const response = createResponse(404, body);
   socket.write(response);
