@@ -21,6 +21,19 @@ const pageNotFound = ({ uri }, response) => {
   return true;
 };
 
+const createViewCounter = () => {
+  let totalViews = 0;
+  return ({ uri }, response) => {
+    totalViews++;
+    if (uri === '/count') {
+      response.send(`Total views are: ${totalViews}`);
+      return true;
+    }
+    return false;
+  };
+};
+
+
 const startServer = (port, handle, serverPath) => {
   const server = createServer((socket) => {
     socket.on('data', (chunk) => {
@@ -35,9 +48,14 @@ const startServer = (port, handle, serverPath) => {
 };
 
 const main = (serverPath) => {
-  const handlers = [requestHandler, serveFileContent, pageNotFound];
-  const handle = createHandler(handlers);
-  startServer(8008, handle, serverPath);
+  const handlers = [
+    createViewCounter(),
+    requestHandler,
+    serveFileContent,
+    pageNotFound
+  ];
+  const handler = createHandler(handlers);
+  startServer(8008, handler, serverPath);
 };
 
 main(process.argv[2]);
