@@ -1,5 +1,5 @@
 const assert = require('assert');
-const { createBody, createResponse, } = require('../src/handler.js');
+const { createBody } = require('../src/handler.js');
 const {
   parseRequestLine,
   parseHeader,
@@ -14,14 +14,6 @@ describe('CreateBody', () => {
 
     assert.strictEqual(createBody('bye'),
       '<html><body><h1>bye</h1></body></html>');
-  });
-
-});
-
-describe('CreateResponse', () => {
-  it('Should give the response', () => {
-    assert.strictEqual(createResponse(200, 'body'),
-      'HTTP/1.1 200 ok\r\n\r\nbody\r\n');
   });
 
 });

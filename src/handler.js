@@ -1,25 +1,18 @@
 const createBody = (message) => `<html><body><h1>${message}</h1></body></html>`;
-const createResponse = (status, body) => `HTTP/1.1 ${status} ok\r\n\r\n${body}\r\n`;
 
-const requestHandler = ({ uri }, socket) => {
+const requestHandler = ({ uri }, response) => {
   if (uri === '/') {
     const body = createBody('Hello');
-    const response = createResponse(200, body);
-    socket.write(response);
-    socket.end();
+    response.send(body);
     return;
   }
   if (uri === '/hello') {
     const body = createBody('How are you?');
-    const response = createResponse(200, body);
-    socket.write(response);
-    socket.end();
+    response.send(body);
     return;
   }
-  const body = createBody('Page Not Found');
-  const response = createResponse(404, body);
-  socket.write(response);
-  socket.end();
+  response.statusCode = 404;
+  response.send('Page Not Found');
 };
 
-module.exports = { requestHandler, createBody, createResponse };
+module.exports = { requestHandler, createBody };
