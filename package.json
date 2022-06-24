@@ -1,0 +1,26 @@
+{
+  "name": "tcp-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha",
+    "nodemon": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/snehaparande/tcp-server.git"
+  },
+  "author": "Sneha",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/snehaparande/tcp-server/issues"
+  },
+  "homepage": "https://github.com/snehaparande/tcp-server#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.18"
+  }
+}
